@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Waste Management Portal</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="user.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>♻️ Waste Management Portal</h1>
+    <p>Submit waste collection requests</p>
+
+     <a href="WARDEN-LOGIN.HTML">Go to Warden Login</a>
+  </header>
+
+  <div class="container">
+    <h2>Submit Your Waste Request</h2>
+
+    <form id="wasteForm " >
+      <label>Name:</label>
+      <input type="text" id="name" required />
+
+      <label>Location:</label>
+      <input type="text" id="location" required />
+
+      <label>Type of Waste:</label>
+      <select id="type">
+        <option value="Organic">Organic</option>
+        <option value="Plastic">Plastic</option>
+        <option value="Electronic">Electronic</option>
+        <option value="Other">Other</option>
+      </select>
+
+      <label>Description:</label>
+      <textarea id="description" placeholder="Short description"></textarea>
+
+      <label>Upload Waste Photo:</label>
+      <input type="file" id="photo" accept="image/*" />
+
+      <button type="submit">Submit Request</button>
+    </form>
+
+    <h2>My Waste Requests</h2>
+    <table id="requestTable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Location</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Photo</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <p style="margin-top:20px;">➡️ <a href="warden.html">Go to Warden Panel</a></p>
+  </div>
+</body>
+<p style="text-align:center; margin-top:20px;">
+  🧑‍🏫 <a href="warden-login.html">Go to Warden Login</a>
+</p>
+
+
+</html>
