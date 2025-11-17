@@ -3,17 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Warden Dashboard</title>
-  
-  <!-- 👇 Use warden.css instead of style.css -->
+  <title>Warden Panel</title>
   <link rel="stylesheet" href="warden.css">
-  
-  <!-- 👇 Connect warden.js -->
   <script src="warden.js" defer></script>
 </head>
 <body>
   <script>
-    // 🔒 Prevent unauthorized access
     if (localStorage.getItem("wardenLoggedIn") !== "true") {
       alert("Please login first!");
       window.location.href = "warden-login.html";
@@ -28,7 +23,6 @@
 
   <div class="container">
     <h2>Pending Waste Reports</h2>
-
     <table id="wardenTable">
       <thead>
         <tr>

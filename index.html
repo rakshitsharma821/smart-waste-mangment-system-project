@@ -1,69 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Waste Management Portal</title>
-  <link rel="stylesheet" href="style.css" />
-  <script src="user.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waste Management Portal - Home</title>
+    <link rel="stylesheet" href="home.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header>
-    <h1>♻️ Waste Management Portal</h1>
-    <p>Submit waste collection requests</p>
+    <div class="home-container">
+        <div class="home-content">
+            <header class="home-header">
+                <h1>♻ Waste Management Portal</h1>
+                <p>Choose your portal to continue</p>
+            </header>
 
-     <a href="WARDEN-LOGIN.HTML">Go to Warden Login</a>
-  </header>
+            <div class="portal-options">
+                <div class="portal-card user-portal" id="userPortalCard">
+                    <div class="portal-icon">👤</div>
+                    <h2>Student Portal</h2>
+                    <p>Submit waste collection requests and track your requests</p>
+                    <a href="user-login.html" class="portal-btn user-btn">Go to User Portal</a>
+                </div>
 
-  <div class="container">
-    <h2>Submit Your Waste Request</h2>
+                <div class="portal-card warden-portal" id="wardenPortalCard">
+                    <div class="portal-icon">🏫</div>
+                    <h2>Warden Portal</h2>
+                    <p>Manage waste collection requests and track status</p>
+                    <a href="warden-login.html" class="portal-btn warden-btn">Go to Warden Portal</a>
+                </div>
+            </div>
 
-    <form id="wasteForm " >
-      <label>Name:</label>
-      <input type="text" id="name" required />
-
-      <label>Location:</label>
-      <input type="text" id="location" required />
-
-      <label>Type of Waste:</label>
-      <select id="type">
-        <option value="Organic">Organic</option>
-        <option value="Plastic">Plastic</option>
-        <option value="Electronic">Electronic</option>
-        <option value="Other">Other</option>
-      </select>
-
-      <label>Description:</label>
-      <textarea id="description" placeholder="Short description"></textarea>
-
-      <label>Upload Waste Photo:</label>
-      <input type="file" id="photo" accept="image/*" />
-
-      <button type="submit">Submit Request</button>
-    </form>
-
-    <h2>My Waste Requests</h2>
-    <table id="requestTable">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Location</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Photo</th>
-          <th>Status</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-
-    <p style="margin-top:20px;">➡️ <a href="warden.html">Go to Warden Panel</a></p>
-  </div>
+            <div class="home-footer">
+                <p>Waste Management System - Efficient waste collection management</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Role-based access control for home page
+        (function() {
+            // Check URL parameter for role
+            const urlParams = new URLSearchParams(window.location.search);
+            const role = urlParams.get('role');
+            
+            // Check if user is already logged in
+            const userLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+            const wardenLoggedIn = localStorage.getItem('wardenLoggedIn') === 'true';
+            
+            // If role is specified in URL, show only that portal
+            if (role === 'user') {
+                // Hide warden portal
+                const wardenCard = document.getElementById('wardenPortalCard');
+                if (wardenCard) {
+                    wardenCard.style.display = 'none';
+                }
+                // If user is logged in, redirect to user dashboard
+                if (userLoggedIn) {
+                    window.location.href = 'user-dashboard.html';
+                }
+            } else if (role === 'warden') {
+                // Hide user portal
+                const userCard = document.getElementById('userPortalCard');
+                if (userCard) {
+                    userCard.style.display = 'none';
+                }
+                // If warden is logged in, redirect to dashboard
+                if (wardenLoggedIn) {
+                    window.location.href = 'warden-dashboard.html';
+                }
+            } else {
+                // No role specified - check if logged in and redirect accordingly
+                if (userLoggedIn) {
+                    window.location.href = 'user-dashboard.html';
+                } else if (wardenLoggedIn) {
+                    window.location.href = 'warden-dashboard.html';
+                }
+            }
+        })();
+    </script>
 </body>
-<p style="text-align:center; margin-top:20px;">
-  🧑‍🏫 <a href="warden-login.html">Go to Warden Login</a>
-</p>
-
-
 </html>

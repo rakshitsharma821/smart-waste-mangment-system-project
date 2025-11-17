@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>♻ Waste Management Portal</title>
+    <link rel="stylesheet" href="user.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>♻ Waste Management Portal</h1>
+            <p>Submit your waste collection request</p>
+            <div id="userInfo" class="user-info" style="margin-top: 15px;">
+                <span id="userNameDisplay" style="font-size: 1rem; opacity: 0.9;"></span>
+                <button onclick="userLogout()" class="logout-btn-user" style="margin-left: 15px; padding: 8px 20px; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; border-radius: 8px; cursor: pointer; font-family: 'Poppins', sans-serif;">Logout</button>
+            </div>
+        </header>
+
+        <div class="form-container">
+            <form id="wasteForm">
+                <div class="form-group">
+                    <label for="name">Name *</label>
+                    <input type="text" id="name" name="name" required placeholder="Enter your name">
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Hostel name OR Room number*</label>
+                    <input type="text" id="location" name="location" required placeholder="Enter your Hostel name OR Room number">
+                </div>
+
+                <div class="form-group">
+                    <label for="type">Type of Waste *</label>
+                    <select id="type" name="type" required>
+                        <option value="">Select waste type</option>
+                        <option value="Organic">Organic</option>
+                        <option value="Plastic">Plastic</option>
+                        <option value="Paper">Paper</option>
+                        <option value="Metal">Metal</option>
+                        <option value="Glass">Glass</option>
+                        <option value="Electronic">Electronic</option>
+                        <option value="Hazardous">Hazardous</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description *</label>
+                    <textarea id="description" name="description" required placeholder="Describe the waste..." rows="4"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="photo">Upload Photo</label>
+                    <input type="file" id="photo" name="photo" accept="image/*">
+                    <small>Supported formats: JPG, PNG, GIF</small>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Request</button>
+            </form>
+        </div>
+
+        <div class="requests-section">
+            <h2>Your Requests</h2>
+            <div class="table-container">
+                <table id="requestsTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Hostel Name OR Room no.</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Photo</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="requestsBody">
+                        <!-- Requests will be loaded here -->
+                    </tbody>
+                </table>
+                <p id="noRequests" class="no-requests">No requests submitted yet.</p>
+            </div>
+        </div>
+
+        <footer>
+            <a href="index.html?role=user" class="warden-link" style="margin-top: 15px; display: inline-block;">← Back to Home</a>
+        </footer>
+    </div>
+
+    <script src="user.js"></script>
+</body>
+</html>
+

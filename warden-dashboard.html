@@ -1,96 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Warden Dashboard</title>
-  <style>
-    body {
-      font-family: "Poppins", sans-serif;
-      background: linear-gradient(135deg, #81c784, #a5d6a7);
-      margin: 0;
-      padding: 0;
-    }
-
-    h1 {
-      text-align: center;
-      color: #1b5e20;
-      padding: 20px;
-    }
-
-    table {
-      width: 90%;
-      margin: 20px auto;
-      border-collapse: collapse;
-      background: white;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    th, td {
-      border: 1px solid #c8e6c9;
-      padding: 12px;
-      text-align: center;
-    }
-
-    th {
-      background-color: #2e7d32;
-      color: white;
-    }
-
-    tr:nth-child(even) {
-      background-color: #f1f8e9;
-    }
-
-    button {
-      background: #2e7d32;
-      color: white;
-      border: none;
-      padding: 6px 10px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    button:hover {
-      background: #1b5e20;
-    }
-
-    .logout-btn {
-      display: block;
-      margin: 20px auto;
-      background: #c62828;
-    }
-
-    .logout-btn:hover {
-      background: #b71c1c;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warden Dashboard - Waste Management</title>
+    <link rel="stylesheet" href="warden.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>Warden Dashboard 🧹
-    <link rel="stylesheet" href="WARDEN.CSS">
-<script src="warden.js" defer></script>
+    <div class="dashboard-container">
+        <!-- Login Form (shown when not logged in) -->
+        <div id="loginSection" class="login-section">
+            <div class="login-box-dashboard">
+                <div class="login-header">
+                    <h1>🏫 Warden Login</h1>
+                    <p>Access your management panel</p>
+                </div>
+                <form id="dashboardLoginForm">
+                    <div class="form-group">
+                        <label for="dashboardUsername">Username</label>
+                        <input type="text" id="dashboardUsername" name="username" required placeholder="Enter username" autocomplete="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="dashboardPassword">Password</label>
+                        <input type="password" id="dashboardPassword" name="password" required placeholder="Enter password" autocomplete="current-password">
+                    </div>
+                    <button type="submit" class="login-btn">Login</button>
+                    <div id="dashboardErrorMessage" class="error-message"></div>
+                </form>
+                <div class="login-footer">
+                    <p>Don't have an account? <a href="warden-signup.html" class="signup-link">Sign Up</a></p>
+                    <a href="index.html?role=warden" class="back-link">← Back to Home</a>
+                </div>
+            </div>
+        </div>
 
-  </h1>
-  <table id="wardenTable">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Location</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Photo</th>
-        <th>Status</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+        <!-- Dashboard Content (shown when logged in) -->
+        <div id="dashboardSection" class="dashboard-section" style="display: none;">
+            <header class="dashboard-header">
+                <div class="header-content">
+                    <div>
+                        <h1>🏫 Warden Management Panel</h1>
+                        <p id="welcomeMessage" class="welcome-message">Welcome back!</p>
+                        <p id="wardenName" class="warden-name"></p>
+                    </div>
+                    <button class="logout-btn" onclick="logout()">Logout</button>
+                </div>
+            </header>
 
-  <button class="logout-btn" onclick="logout()">Logout</button>
+            <div class="dashboard-content">
+            <div class="stats-section">
+                <div class="stat-card">
+                    <h3>Total Requests</h3>
+                    <p id="totalRequests">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Pending</h3>
+                    <p id="pendingRequests">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Collected</h3>
+                    <p id="collectedRequests">0</p>
+                </div>
+            </div>
 
-  <script src="warden.js"></script>
+            <div class="requests-section">
+                <h2>Waste Collection Requests</h2>
+                <div class="table-container">
+                    <table id="requestsTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Hostel Name OR Room no.</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Photo</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="requestsBody">
+                            <!-- Requests will be loaded here -->
+                        </tbody>
+                    </table>
+                    <p id="noRequests" class="no-requests">No requests available.</p>
+                </div>
+            </div>
+        </div>
+        </div>
+        
+        <footer style="text-align: center; margin-top: 30px; padding: 20px;">
+            <a href="index.html?role=warden" style="color: white; text-decoration: none; font-weight: 500; padding: 10px 20px; background: rgba(255,255,255,0.2); border-radius: 8px; display: inline-block;">← Back to Home</a>
+        </footer>
+    </div>
+
+    <script src="warden.js"></script>
 </body>
 </html>

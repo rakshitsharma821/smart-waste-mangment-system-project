@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Login - Waste Management</title>
+    <link rel="stylesheet" href="user.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="user-login-page">
+    <div class="container">
+        <header>
+            <h1>♻ Waste Management Portal</h1>
+            <p>Student Login</p>
+        </header>
+
+        <div class="form-container">
+            <div class="login-box-user">
+                <div class="login-header-user">
+                    <h2>👤 Student Login</h2>
+                    <p>Access your account</p>
+                </div>
+                <form id="userLoginForm">
+                    <div class="form-group">
+                        <label for="userUsername">Student Name</label>
+                        <input type="text" id="userUsername" name="username" required placeholder="Enter username" autocomplete="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="userPassword">Password</label>
+                        <input type="password" id="userPassword" name="password" required placeholder="Enter password" autocomplete="current-password">
+                    </div>
+                    <button type="submit" class="submit-btn">Login</button>
+                    <div id="userErrorMessage" class="error-message-user"></div>
+                </form>
+                <div class="login-footer-user">
+                    <p>Don't have an account? <a href="user-signup.html" class="signup-link-user">Sign Up</a></p>
+                    <a href="index.html?role=user" class="back-link-user">← Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="user.js"></script>
+</body>
+</html>
+

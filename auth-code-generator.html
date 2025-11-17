@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authorization Code Generator - Waste Management</title>
+    <link rel="stylesheet" href="warden-login.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .code-display {
+            background: #f5f5f5;
+            border: 2px dashed #1976d2;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .generated-code {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1976d2;
+            letter-spacing: 2px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+        }
+        .code-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        .code-item {
+            background: white;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border-left: 4px solid #1976d2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .code-item span {
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            color: #333;
+        }
+        .code-item small {
+            color: #666;
+            font-size: 0.85rem;
+        }
+        .copy-btn {
+            padding: 6px 15px;
+            background: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+        .copy-btn:hover {
+            background: #1565c0;
+        }
+        .copy-btn.copied {
+            background: #4caf50;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="side-animation">
+            <div class="animation-overlay">
+                <h2>Authorization Code Generator</h2>
+                <p>Generate codes for warden registration</p>
+            </div>
+        </div>
+        <div class="login-form-container">
+            <div class="login-box" style="max-width: 600px;">
+                <div class="login-header">
+                    <h1>🔐 Code Generator</h1>
+                    <p>Generate authorization codes for warden signup</p>
+                </div>
+                
+                <form id="codeGeneratorForm">
+                    <div class="form-group">
+                        <label for="collegeName">College/Institution Name *</label>
+                        <input type="text" id="collegeName" name="collegeName" required placeholder="Enter college name" autocomplete="organization">
+                    </div>
+                    <div class="form-group">
+                        <label for="wardenName">Warden Name (Optional)</label>
+                        <input type="text" id="wardenName" name="wardenName" placeholder="Enter warden name">
+                        <small>This helps identify who the code is for</small>
+                    </div>
+                    <button type="submit" class="login-btn">Generate Code</button>
+                    <div id="errorMessage" class="error-message"></div>
+                </form>
+
+                <div id="codeDisplay" class="code-display" style="display: none;">
+                    <p style="margin: 0 0 10px 0; color: #666; font-size: 0.9rem;">Generated Authorization Code:</p>
+                    <div class="generated-code" id="generatedCode"></div>
+                    <button class="copy-btn" onclick="copyCode()">Copy Code</button>
+                    <p style="margin: 15px 0 0 0; color: #666; font-size: 0.8rem;">⚠️ Save this code securely. Share it only with authorized personnel.</p>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <h3 style="color: #1976d2; font-size: 1.1rem; margin-bottom: 15px;">Generated Codes History</h3>
+                    <div class="code-list" id="codeList">
+                        <p style="text-align: center; color: #999; padding: 20px;">No codes generated yet</p>
+                    </div>
+                </div>
+
+                <div class="login-footer" style="margin-top: 30px;">
+                    <a href="warden-signup.html" class="back-link">← Back to Warden Signup</a>
+                    <br>
+                    <a href="index.html?role=warden" class="back-link" style="margin-top: 10px; display: inline-block;">← Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load existing codes on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCodeHistory();
+        });
+
+        // Generate code from college name
+        document.getElementById('codeGeneratorForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            generateCode();
+        });
+
+        function generateCode() {
+            const collegeName = document.getElementById('collegeName').value.trim();
+            const wardenName = document.getElementById('wardenName').value.trim();
+            const errorMessage = document.getElementById('errorMessage');
+
+            if (!collegeName) {
+                if (errorMessage) {
+                    errorMessage.textContent = 'Please enter college name.';
+                    errorMessage.classList.remove('success');
+                    errorMessage.classList.add('show');
+                }
+                return;
+            }
+
+            // Generate code from college name
+            const code = generateCodeFromName(collegeName);
+            
+            // Save to localStorage
+            saveCode(code, collegeName, wardenName);
+
+            // Display code
+            document.getElementById('generatedCode').textContent = code;
+            document.getElementById('codeDisplay').style.display = 'block';
+
+            // Show success message
+            if (errorMessage) {
+                errorMessage.textContent = 'Code generated successfully!';
+                errorMessage.classList.remove('success');
+                errorMessage.classList.add('success', 'show');
+            }
+
+            // Reload history
+            loadCodeHistory();
+
+            // Scroll to code display
+            document.getElementById('codeDisplay').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function generateCodeFromName(collegeName) {
+            // Remove spaces and special characters, convert to uppercase
+            let base = collegeName.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+            
+            // Take first 6 characters
+            if (base.length > 6) {
+                base = base.substring(0, 6);
+            } else {
+                // Pad if less than 6 characters
+                while (base.length < 6) {
+                    base += 'X';
+                }
+            }
+
+            // Add year
+            const year = new Date().getFullYear();
+            
+            // Add random 2-digit number for uniqueness
+            const random = Math.floor(Math.random() * 90) + 10; // 10-99
+
+            // Format: COLLEGE_YEAR_RANDOM
+            return base + '_' + year + '_' + random;
+        }
+
+        function saveCode(code, collegeName, wardenName) {
+            let codes = JSON.parse(localStorage.getItem('wardenAuthCodes') || '[]');
+            
+            codes.push({
+                code: code,
+                collegeName: collegeName,
+                wardenName: wardenName || 'Not specified',
+                generatedAt: new Date().toISOString(),
+                used: false
+            });
+
+            localStorage.setItem('wardenAuthCodes', JSON.stringify(codes));
+        }
+
+        function loadCodeHistory() {
+            const codes = JSON.parse(localStorage.getItem('wardenAuthCodes') || '[]');
+            const codeList = document.getElementById('codeList');
+
+            if (codes.length === 0) {
+                codeList.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">No codes generated yet</p>';
+                return;
+            }
+
+            // Sort by date (newest first)
+            codes.sort((a, b) => new Date(b.generatedAt) - new Date(a.generatedAt));
+
+            codeList.innerHTML = codes.map(function(item, index) {
+                const date = new Date(item.generatedAt).toLocaleString();
+                const usedBadge = item.used ? '<span style="color: #4caf50; font-size: 0.75rem;">✓ Used</span>' : '<span style="color: #f44336; font-size: 0.75rem;">○ Unused</span>';
+                
+                return `
+                    <div class="code-item">
+                        <div>
+                            <span>${item.code}</span>
+                            <br>
+                            <small>${item.collegeName}${item.wardenName !== 'Not specified' ? ' - ' + item.wardenName : ''}</small>
+                            <br>
+                            <small style="color: #999;">${date}</small>
+                        </div>
+                        <div style="text-align: right;">
+                            ${usedBadge}
+                            <br>
+                            <button class="copy-btn" onclick="copySpecificCode('${item.code}')" style="margin-top: 5px;">Copy</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function copyCode() {
+            const code = document.getElementById('generatedCode').textContent;
+            copyToClipboard(code);
+        }
+
+        function copySpecificCode(code) {
+            copyToClipboard(code);
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                // Show feedback
+                const buttons = document.querySelectorAll('.copy-btn');
+                buttons.forEach(function(btn) {
+                    if (btn.textContent === 'Copy' || btn.textContent.includes('Copied')) {
+                        const originalText = btn.textContent;
+                        btn.textContent = 'Copied!';
+                        btn.classList.add('copied');
+                        setTimeout(function() {
+                            btn.textContent = originalText === 'Copied!' ? 'Copy' : originalText;
+                            btn.classList.remove('copied');
+                        }, 2000);
+                    }
+                });
+            }).catch(function(err) {
+                alert('Failed to copy code. Please copy manually: ' + text);
+            });
+        }
+    </script>
+</body>
+</html>
+

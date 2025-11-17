@@ -1,0 +1,335 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.login-container {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.side-animation {
+    flex: 0 0 40%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    /* Fallback gradient animation if GIF is not available */
+    background: linear-gradient(-45deg, #4caf50, #45a049, #66bb6a, #81c784);
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
+}
+
+.side-animation::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('images/animation.gif');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1;
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.animation-overlay {
+    position: relative;
+    z-index: 3;
+    background: rgba(76, 175, 80, 0.85);
+    color: white;
+    padding: 40px;
+    text-align: center;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.animation-overlay h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.animation-overlay p {
+    font-size: 1.1rem;
+    font-weight: 300;
+    opacity: 0.9;
+}
+
+.login-form-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(245, 247, 250, 0.9) 0%, rgba(195, 207, 226, 0.9) 100%),
+                url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&q=80') center/cover no-repeat;
+    padding: 40px 20px;
+    position: relative;
+    min-height: 100vh;
+    overflow-y: auto;
+}
+
+.login-form-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&q=80') center/cover no-repeat;
+    z-index: 0;
+    opacity: 0.3;
+}
+
+/* Different background for signup page */
+body.warden-signup-page .login-form-container {
+    background: linear-gradient(135deg, rgba(245, 247, 250, 0.9) 0%, rgba(195, 207, 226, 0.9) 100%),
+                url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&q=80') center/cover no-repeat;
+}
+
+body.warden-signup-page .login-form-container::before {
+    background: url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&q=80') center/cover no-repeat;
+    opacity: 0.3;
+}
+
+.login-box {
+    background: white;
+    border-radius: 15px;
+    padding: 50px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    z-index: 1;
+    margin: 20px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.login-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2d5016;
+    margin-bottom: 10px;
+}
+
+.login-header p {
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #2d5016;
+    font-size: 0.95rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #4caf50;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+.login-btn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    margin-top: 10px;
+}
+
+.login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+    background: linear-gradient(135deg, #45a049 0%, #4caf50 100%);
+}
+
+.login-btn:active {
+    transform: translateY(0);
+}
+
+.error-message {
+    margin-top: 15px;
+    padding: 12px;
+    background: #ffebee;
+    color: #c62828;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    text-align: center;
+    display: none;
+    transition: all 0.3s ease;
+}
+
+.error-message.show {
+    display: block;
+}
+
+.error-message.success {
+    background: #d4edda;
+    color: #155724;
+}
+
+.login-footer {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.back-link {
+    color: #4caf50;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    display: block;
+    margin-top: 10px;
+}
+
+.back-link:hover {
+    color: #45a049;
+    text-decoration: underline;
+}
+
+.signup-link {
+    color: #1976d2;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.signup-link:hover {
+    color: #1565c0;
+    text-decoration: underline;
+}
+
+.login-footer p {
+    margin-bottom: 10px;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 968px) {
+    .login-container {
+        flex-direction: column;
+    }
+
+    .side-animation {
+        flex: 0 0 25%;
+        min-height: 180px;
+    }
+
+    .login-form-container {
+        padding: 20px 15px;
+        min-height: auto;
+    }
+
+    .login-box {
+        max-width: 100%;
+        padding: 40px 30px;
+        margin: 10px;
+    }
+
+    .animation-overlay {
+        padding: 20px;
+    }
+
+    .animation-overlay h2 {
+        font-size: 1.5rem;
+    }
+
+    .animation-overlay p {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-form-container {
+        padding: 15px 10px;
+    }
+
+    .login-box {
+        padding: 30px 20px;
+        margin: 5px;
+        max-height: 95vh;
+    }
+
+    .login-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .side-animation {
+        flex: 0 0 20%;
+        min-height: 120px;
+    }
+
+    .animation-overlay {
+        padding: 15px;
+    }
+
+    .animation-overlay h2 {
+        font-size: 1.2rem;
+    }
+
+    .animation-overlay p {
+        font-size: 0.85rem;
+    }
+}
+
